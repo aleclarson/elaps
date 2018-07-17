@@ -41,6 +41,18 @@ class Stopwatch {
     const time = process.hrtime(this.started);
     return time[0] * 1e3 + time[1] * 1e-6;
   }
+  print(time) {
+    if (this.msg) {
+      if (time == null) time = this.total;
+      time = Number(time.toFixed(time < 100 ? 1 : 0));
+      if (elapsedRE.test(this.msg)) {
+        console.log(format(this.msg.replace(elapsedRE, '%O ms'), time));
+      } else {
+        console.log(format(this.msg + ' (%O ms)', time));
+      }
+    }
+    return this;
+  }
   pause() {
     if (this.started !== null) {
       this.lap += this.time();
@@ -50,23 +62,13 @@ class Stopwatch {
     return this;
   }
   stop() {
-    if (this.started === null && !this.paused) {
-      return this;
-    }
-
-    let time = this.lap += this.time();
-    this.laps += 1;
-    this.total += time;
-    this.paused = false;
-    this.started = null;
- 
-    if (this.msg) {
-      time = Number(time.toFixed(time < 100 ? 1 : 0));
-      if (elapsedRE.test(this.msg)) {
-        console.log(format(this.msg.replace(elapsedRE, '%O ms'), time));
-      } else {
-        console.log(format(this.msg + ' (%O ms)', time));
-      }
+    if (this.started || this.paused) {
+      let time = this.lap += this.time();
+      this.laps += 1;
+      this.total += time;
+      this.paused = false;
+      this.started = null;
+      this.print(time);
     }
     return this;
   }

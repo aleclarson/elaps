@@ -36,4 +36,7 @@ elaps('doSomething took %t').stop();
 
 // manually add a new lap (useful for parallel aggregate timing)
 t.add(1000);
+
+// print the timer message with the `total` time
+t.print();
 ```
