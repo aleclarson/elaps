@@ -13,7 +13,7 @@ const format = function(msg, ...args) {
 
 class Stopwatch {
   constructor(msg) {
-    this.msg = msg;
+    this.msg = msg || '';
     this.reset();
   }
   reset() {
@@ -58,7 +58,7 @@ class Stopwatch {
 }
 
 function elaps(...args) {
-  const msg = args.length > 1 ? format(...args) : null;
+  const msg = args.length > 1 ? format(...args) : args[0];
   return new Stopwatch(msg).start();
 }
 
