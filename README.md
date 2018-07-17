@@ -5,7 +5,7 @@ Stopwatch for high-resolution timing
 ```js
 const elaps = require('elaps');
 
-const t = elaps('doSomething');
+let t = elaps('doSomething');
 doSomething();
 t.stop(); // prints "(5.25 ms) doSomething"
 
@@ -18,6 +18,9 @@ t.stop(); // prints "(5.25 ms) doSomething"
 // the combined time of all laps
 t.elapsed;
 
-// the average
+// the average time per lap
 t.average();
+
+// create a stopped timer
+t = elaps('doSomething').reset();
 ```

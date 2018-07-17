@@ -13,10 +13,14 @@ const format = function(msg, ...args) {
 class Stopwatch {
   constructor(msg) {
     this.msg = msg;
+    this.reset();
+  }
+  reset() {
     this.lap = null;
     this.laps = 0;
     this.total = 0;
     this.started = null;
+    return this;
   }
   start() {
     if (this.started === null) {
