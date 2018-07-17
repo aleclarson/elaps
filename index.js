@@ -38,7 +38,7 @@ class Stopwatch {
     this.total += time;
  
     if (this.msg) {
-      time = time.toFixed(time < 100 ? time < 10 ? 0 : 1 : 2);
+      time = time.toFixed(time < 100 ? 1 : 0);
       console.log(format('(%O ms) ' + this.msg, Number(time)));
     }
     return this;
