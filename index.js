@@ -24,6 +24,11 @@ class Stopwatch {
     this.started = null;
     return this;
   }
+  add(time) {
+    this.laps += 1;
+    this.total += time;
+    return this;
+  }
   start() {
     if (this.started === null) {
       this.paused ? (this.paused = false) : (this.lap = 0);
