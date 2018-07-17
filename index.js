@@ -1,6 +1,7 @@
 const execall = require('@cush/execall');
 const util = require('util');
 
+const elapsedRE = /(?:^|[^%])%t/;
 const placeholderRE = /((?:^|[^%])%[sdifjoO])/g;
 const format = function(msg, ...args) {
   if (args.length) {
@@ -42,8 +43,12 @@ class Stopwatch {
     this.total += time;
  
     if (this.msg) {
-      time = time.toFixed(time < 100 ? 1 : 0);
-      console.log(format('(%O ms) ' + this.msg, Number(time)));
+      time = Number(time.toFixed(time < 100 ? 1 : 0));
+      if (elapsedRE.test(this.msg)) {
+        console.log(format(this.msg.replace(elapsedRE, '%Oms'), time));
+      } else {
+        console.log(format(this.msg + ' (%Oms)', time));
+      }
     }
     return this;
   }
