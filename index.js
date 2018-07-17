@@ -2,7 +2,7 @@ const execall = require('@cush/execall');
 const util = require('util');
 
 const placeholderRE = /((?:^|[^%])%[sdifjoO])/g;
-const format = function(msg, args) {
+const format = function(msg, ...args) {
   if (args.length) {
     const count = execall(placeholderRE, msg).length;
     msg += ' %O'.repeat(Math.max(0, args.length - count));
@@ -11,8 +11,8 @@ const format = function(msg, args) {
 };
 
 class Stopwatch {
-  constructor(msg, ...args) {
-    this.msg = format(msg, args);
+  constructor(msg) {
+    this.msg = msg;
     this.lap = null;
     this.laps = 0;
     this.total = 0;
@@ -48,8 +48,8 @@ class Stopwatch {
   }
 }
 
-function elaps(name) {
-  return new Stopwatch(name).start();
+function elaps(...args) {
+  return new Stopwatch(format(...args)).start();
 }
 
 module.exports = elaps;
