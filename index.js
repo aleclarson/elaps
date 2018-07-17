@@ -58,7 +58,8 @@ class Stopwatch {
 }
 
 function elaps(...args) {
-  return new Stopwatch(format(...args)).start();
+  const msg = args.length > 1 ? format(...args) : null;
+  return new Stopwatch(msg).start();
 }
 
 module.exports = elaps;
