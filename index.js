@@ -1,8 +1,8 @@
 const execall = require('@cush/execall');
 const util = require('util');
 
-const elapsedRE = /(?:^|[^%])%t/;
-const placeholderRE = /((?:^|[^%])%[sdifjoO])/g;
+const elapsedRE = /(?<!%)%t/;
+const placeholderRE = /((?<!%)%[sdifjoO])/g;
 const format = function(msg, ...args) {
   if (args.length) {
     const count = execall(placeholderRE, msg).length;
