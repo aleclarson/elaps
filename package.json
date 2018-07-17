@@ -1,0 +1,7 @@
+{
+  "name": "elaps",
+  "version": "1.0.0",
+  "description": "Stopwatch for high-resolution timing",
+  "repository": "https://github.com/aleclarson/elapse.git",
+  "license": "MIT"
+}
