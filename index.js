@@ -35,12 +35,12 @@ class Stopwatch {
     }
 
     let time = process.hrtime(this.started);
-    this.started = null;
+    this.lap = time =
+      time[0] * 1e3 + time[1] * 1e-6;
 
-    time = time[0] * 1e3 + time[1] * 1e-6;
-    this.lap = time;
     this.laps += 1;
     this.total += time;
+    this.started = null;
  
     if (this.msg) {
       time = Number(time.toFixed(time < 100 ? 1 : 0));
