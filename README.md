@@ -34,6 +34,9 @@ t = elaps('doSomething').reset();
 // choose where the elapsed time is printed
 elaps('doSomething took %t').stop();
 
+// display the number of laps in your message
+elaps('doSomething called %n times').stop();
+
 // manually add a new lap (useful for parallel aggregate timing)
 t.add(1000);
 
