@@ -9,7 +9,9 @@ const format = function(msg, ...args) {
     const count = execall(placeholderRE, msg).length;
     msg += ' %O'.repeat(Math.max(0, args.length - count));
   }
-  return util.formatWithOptions({colors: true}, msg, ...args);
+  return util.formatWithOptions({
+    colors: !process.env.NO_COLOR
+  }, msg, ...args);
 };
 
 class Lap {
