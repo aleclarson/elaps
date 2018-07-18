@@ -155,4 +155,9 @@ function elaps(...args) {
   return timer;
 }
 
+elaps.lazy = function(...args) {
+  const msg = args.length > 1 ? format(...args) : args[0];
+  return new Stopwatch(msg);
+};
+
 module.exports = elaps;

@@ -11,7 +11,7 @@ const elaps = require('elaps');
 let t = elaps('do something');
 
 // create a stopped timer
-t = elaps().reset();
+t = elaps.lazy('do something');
 
 // choose where the elapsed time is printed
 elaps('did something in %t').stop();
