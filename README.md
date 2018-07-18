@@ -1,4 +1,4 @@
-# elaps v1.5.0
+# elaps v1.5.1
 
 Stopwatch for high-resolution timing
 
