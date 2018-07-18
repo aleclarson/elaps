@@ -12,46 +12,61 @@ const format = function(msg, ...args) {
   return util.formatWithOptions({colors: true}, msg, ...args);
 };
 
-class Stopwatch {
-  constructor(msg) {
-    this.msg = msg || '';
-    this.reset();
-  }
-  reset() {
-    this.lap = null;
-    this.laps = 0;
-    this.total = 0;
+class Lap {
+  constructor(started, timer) {
+    this.elapsed = 0;
+    this.started = started;
     this.paused = false;
-    this.started = null;
-    this.parallels = 0;
+    this.timer = timer;
+    this.timerId = timer.id;
+  }
+  pause() {
+    if (this.timer) this.timer.pause(this);
     return this;
   }
-  add(time) {
-    this.laps += 1;
-    this.total += time;
+  resume() {
+    if (this.timer) this.timer.resume(this);
+    return this;
+  }
+  stop(print) {
+    if (this.timer) this.timer.stop(print, this);
+    return this;
+  }
+}
+
+let nextId = 1;
+
+class Stopwatch {
+  constructor(msg) {
+    this.id = nextId++;
+    this.reset();
+    this.msg = msg || '';
+  }
+  reset() {
+    if (this.pending) {
+      this.id = nextId++;
+    }
+    this.lap = null;
+    this.laps = [];
+    this.elapsed = 0;
+    this.started = null;
+    this.pending = 0;
     return this;
   }
   start() {
-    this.parallels++;
-    if (this.started === null) {
-      this.paused ? (this.paused = false) : (this.lap = 0);
-      this.started = process.hrtime();
-    }
-    return this;
-  }
-  time() {
-    if (this.started === null) return 0;
-    const time = process.hrtime(this.started);
-    return time[0] * 1e3 + time[1] * 1e-6;
+    this.pending += 1;
+    const lap = new Lap(process.hrtime(), this);
+    if (!this.started) this.started = lap.started;
+    return this.lap = lap;
   }
   print(time) {
     if (this.msg) {
-      if (time == null) time = this.total;
+      if (time == null) time = this.elapsed;
       time = Number(time.toFixed(time < 100 ? 1 : 0));
 
       let msg = this.msg;
       if (lapsRE.test(msg)) {
-        msg = format(msg.replace(lapsRE, '%O'), this.laps);
+        msg = format(msg.replace(lapsRE, '%O'), this.laps.length);
       }
       if (elapsedRE.test(msg)) {
         console.log(format(msg.replace(elapsedRE, '%O ms'), time));
@@ -61,35 +76,80 @@ class Stopwatch {
     }
     return this;
   }
-  pause() {
-    if (this.started !== null) {
-      if (--this.parallels) return this;
-      this.lap += this.time();
-      this.paused = true;
-      this.started = null;
+  pause(lap = this.lap) {
+    if (lap && lap.started) {
+      lap.elapsed = lap.time();
+      lap.started = null;
+      lap.paused = true;
+
+      if (lap.timerId === this.id && --this.pending === 0) {
+        this.elapsed = this.time();
+        this.started = null;
+      }
     }
     return this;
   }
-  stop(print) {
-    if (--this.parallels) return this;
-    if (this.started || this.paused) {
-      let time = this.lap += this.time();
-      this.laps += 1;
-      this.total += time;
-      this.paused = false;
-      this.started = null;
-      print && this.print(time);
+  resume(lap = this.lap) {
+    if (lap && lap.paused) {
+      lap.paused = false;
+      lap.started = process.hrtime();
+
+      if (lap.timerId === this.id && ++this.pending === 1) {
+        this.started = lap.started;
+      }
     }
     return this;
+  }
+  stop(print, lap = this.lap) {
+    if (lap && lap.timer) {
+      lap.timer = null;
+
+      if (lap.paused) {
+        lap.paused = false;
+      } else if (lap.started) {
+        lap.elapsed = lap.time();
+        lap.started = null;
+      }
+
+      if (lap.timerId === this.id) {
+        if (--this.pending === 0) {
+          this.elapsed = this.time();
+          this.started = null;
+        }
+        if (lap === this.lap) {
+          this.lap = null;
+        }
+        this.laps.push(lap.elapsed);
+        print && this.print(lap.elapsed);
+      }
+    }
+    return this;
+  }
+  sum() {
+    let sum = 0, i = 0;
+    const laps = this.laps, len = laps.length;
+    while (i < len) sum += laps[i++];
+    return sum;
   }
   average() {
-    return this.total / this.laps;
+    return this.sum() / this.laps.length;
   }
 }
 
+Lap.prototype.time =
+Stopwatch.prototype.time = function time() {
+  if (this.started) {
+    const time = process.hrtime(this.started);
+    return this.elapsed + time[0] * 1e3 + time[1] * 1e-6;
+  }
+  return this.elapsed;
+};
+
 function elaps(...args) {
   const msg = args.length > 1 ? format(...args) : args[0];
-  return new Stopwatch(msg).start();
+  const timer = new Stopwatch(msg);
+  timer.start();
+  return timer;
 }
 
 module.exports = elaps;
