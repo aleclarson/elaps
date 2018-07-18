@@ -4,6 +4,9 @@
   "description": "Stopwatch for high-resolution timing",
   "repository": "https://github.com/aleclarson/elaps.git",
   "license": "MIT",
+  "engines": {
+    "node": ">=9"
+  },
   "dependencies": {
     "@cush/execall": "^1.0.0"
   }
