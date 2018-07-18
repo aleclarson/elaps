@@ -39,7 +39,11 @@ class Lap {
 let nextId = 1;
 
 class Stopwatch {
-  constructor(msg) {
+  constructor(msg, args) {
+    if (msg != null) {
+      msg = String(msg);
+      if (args.length) msg = format(msg, ...args);
+    }
     this.id = nextId++;
     this.reset();
     this.msg = msg || '';
@@ -147,16 +151,14 @@ Stopwatch.prototype.time = function time() {
   return this.elapsed;
 };
 
-function elaps(...args) {
-  const msg = args.length > 1 ? format(...args) : args[0];
-  const timer = new Stopwatch(msg);
+function elaps(msg, ...args) {
+  const timer = new Stopwatch(msg, args);
   timer.start();
   return timer;
 }
 
-elaps.lazy = function(...args) {
-  const msg = args.length > 1 ? format(...args) : args[0];
-  return new Stopwatch(msg);
+elaps.lazy = function(msg, ...args) {
+  return new Stopwatch(msg, args);
 };
 
 module.exports = elaps;
