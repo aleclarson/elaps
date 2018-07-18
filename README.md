@@ -66,7 +66,7 @@ Use `%n` to print the number of laps.
 
 The function called by the `print` method.
 
-Defaults to `console.log`.
+Defaults to `elaps.log || console.log`.
 
 &nbsp;
 

@@ -41,7 +41,7 @@ class Stopwatch {
     this.id = nextId++;
     this.reset();
     this.msg = msg || '';
-    this.log = console.log;
+    this.log = elaps.log || console.log;
   }
   reset() {
     if (this.pending) {
