@@ -23,6 +23,7 @@ class Stopwatch {
     this.total = 0;
     this.paused = false;
     this.started = null;
+    this.parallels = 0;
     return this;
   }
   add(time) {
@@ -31,6 +32,7 @@ class Stopwatch {
     return this;
   }
   start() {
+    this.parallels++;
     if (this.started === null) {
       this.paused ? (this.paused = false) : (this.lap = 0);
       this.started = process.hrtime();
@@ -61,6 +63,7 @@ class Stopwatch {
   }
   pause() {
     if (this.started !== null) {
+      if (--this.parallels) return this;
       this.lap += this.time();
       this.paused = true;
       this.started = null;
@@ -68,6 +71,7 @@ class Stopwatch {
     return this;
   }
   stop() {
+    if (--this.parallels) return this;
     if (this.started || this.paused) {
       let time = this.lap += this.time();
       this.laps += 1;
