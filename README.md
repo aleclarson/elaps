@@ -2,44 +2,152 @@
 
 Stopwatch for high-resolution timing
 
+Powered by `process.hrtime()`
+
 ```js
 const elaps = require('elaps');
 
-// new timers start automatically
-let t = elaps('doSomething');
-doSomething();
-
-// pause the current lap
-t.pause();
-t.start(); // and resume
-
-// stop the timer and print its message (if one exists)
-t.stop(); // prints "doSomething (5.25 ms)"
-
-// get the lap time without pausing or stopping
-t.time();
-
-// begin a new lap once stopped
-t.start();
-
-// the combined time of all laps
-t.elapsed;
-
-// the average time per lap
-t.average();
+// create a started timer
+let t = elaps('do something');
 
 // create a stopped timer
-t = elaps('doSomething').reset();
+t = elaps().reset();
 
 // choose where the elapsed time is printed
-elaps('doSomething took %t').stop();
+elaps('did something in %t').stop();
 
-// display the number of laps in your message
-elaps('doSomething called %n times').stop();
+// print the number of laps
+elaps('did something %n times').stop();
 
-// manually add a new lap (useful for parallel aggregate timing)
-t.add(1000);
+// util.format placeholders are supported
+elaps('do something: %O', {meta:'data'}).stop();
 
-// print the timer message with the `total` time
-t.print();
+// args without a placeholder default to %O
+elaps('do something:', {meta:'data'}).stop();
 ```
+
+## `Stopwatch` class
+
+### Properties
+
+### `lap: ?Lap`
+
+The newest `Lap` object created by a `start()` call.
+
+Equals `null` when the newest lap is stopped.
+
+### `laps: number[]`
+
+The array of lap times in order of stop time.
+
+### `elapsed: number`
+
+The time passed (in milliseconds) with 1+ laps counting.
+
+Updated when a `pause()` or `stop()` call leads to `this.pending` being zero.
+
+*Note:* This not the same as `sum()`, which combines the individual lap times.
+
+### `pending: number`
+
+The number of pending laps (neither paused nor stopped).
+
+### `msg: string`
+
+The message passed to the `elaps` constructor.
+
+Printed by `stop(true)` and `print()` calls.
+
+Use `%t` to print the elapsed time.
+
+Use `%n` to print the number of laps.
+
+&nbsp;
+
+### Methods
+
+### `start(): Lap`
+
+Start a new lap.
+
+Update the value of `this.lap` to the new lap.
+
+### `stop(print: boolean): this`
+
+Stop the current lap.
+
+Pass `true` to print the lap time.
+
+### `print(time: ?number): this`
+
+Print `this.msg` with given time (in milliseconds) or `this.elapsed`.
+
+### `time(): number`
+
+Get the updated value of `this.elapsed` without pausing/stopping every pending lap.
+
+### `sum(): number`
+
+Get the combined time (in milliseconds) of all stopped laps.
+
+### `average(): number`
+
+Get the average time (in milliseconds) of all stopped laps.
+
+### `pause(): this`
+
+Shorthand for `this.lap.pause()`
+
+### `resume(): this`
+
+Shorthand for `this.lap.resume()`
+
+### `reset(): this`
+
+Reset `this` to its initial state.
+
+Any pending laps won't affect the new state.
+
+&nbsp;
+
+## `Lap` class
+
+### Properties
+
+### `elapsed: number`
+
+The lap time. Updated by `pause()` and `stop()` calls.
+
+### `paused: boolean`
+
+Equals `true` when paused. 😉
+
+### `timer: ?Stopwatch`
+
+The associated `Stopwatch` object.
+
+Equals `null` once stopped.
+
+&nbsp;
+
+### Methods
+
+### `stop(print: boolean): this`
+
+Stop counting.
+
+Pass `true` to print the lap time.
+
+### `time(): number`
+
+Get the updated value of `this.elapsed` without pausing/stopping.
+
+### `pause(): this`
+
+Pause counting and allow for resuming in the future.
+
+### `resume(): this`
+
+Resume counting.
+
+&nbsp;
