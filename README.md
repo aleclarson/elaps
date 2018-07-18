@@ -88,6 +88,8 @@ Pass `true` to print the lap time.
 
 Print `this.msg` with given time (in milliseconds) or `this.elapsed`.
 
+You can pass a string (followed by any other values) to override `this.msg` for one call only. To override both the time and message, the time must come first.
+
 ### `time(): number`
 
 Get the updated value of `this.elapsed` without pausing/stopping every pending lap.

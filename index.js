@@ -62,12 +62,11 @@ class Stopwatch {
     if (!this.started) this.started = lap.started;
     return this.lap = lap;
   }
-  print(time) {
-    if (this.msg) {
-      if (time == null) time = this.elapsed;
+  print(...args) {
+    let time = typeof args[0] === 'number' ? args.shift() : this.elapsed;
+    let msg = typeof args[0] === 'string' ? format(...args) : this.msg;
+    if (msg) {
       time = Number(time.toFixed(time < 100 ? 1 : 0));
-
-      let msg = this.msg;
       if (lapsRE.test(msg)) {
         msg = format(msg.replace(lapsRE, '%O'), this.laps.length);
       }
