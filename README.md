@@ -62,6 +62,12 @@ Use `%t` to print the elapsed time.
 
 Use `%n` to print the number of laps.
 
+### `log: Function`
+
+The function called by the `print` method.
+
+Defaults to `console.log`.
+
 &nbsp;
 
 ### Methods

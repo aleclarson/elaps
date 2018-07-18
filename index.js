@@ -41,6 +41,7 @@ class Stopwatch {
     this.id = nextId++;
     this.reset();
     this.msg = msg || '';
+    this.log = console.log;
   }
   reset() {
     if (this.pending) {
@@ -69,9 +70,9 @@ class Stopwatch {
         msg = format(msg.replace(lapsRE, '%O'), this.laps.length);
       }
       if (elapsedRE.test(msg)) {
-        console.log(format(msg.replace(elapsedRE, '%O ms'), time));
+        this.log(format(msg.replace(elapsedRE, '%O ms'), time));
       } else {
-        console.log(format(msg + ' (%O ms)', time));
+        this.log(format(msg + ' (%O ms)', time));
       }
     }
     return this;
