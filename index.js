@@ -70,7 +70,7 @@ class Stopwatch {
     }
     return this;
   }
-  stop() {
+  stop(print) {
     if (--this.parallels) return this;
     if (this.started || this.paused) {
       let time = this.lap += this.time();
@@ -78,7 +78,7 @@ class Stopwatch {
       this.total += time;
       this.paused = false;
       this.started = null;
-      this.print(time);
+      print && this.print(time);
     }
     return this;
   }
