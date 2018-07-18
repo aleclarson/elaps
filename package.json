@@ -2,7 +2,7 @@
   "name": "elaps",
   "version": "1.5.0",
   "description": "Stopwatch for high-resolution timing",
-  "repository": "https://github.com/aleclarson/elapse.git",
+  "repository": "https://github.com/aleclarson/elaps.git",
   "license": "MIT",
   "dependencies": {
     "@cush/execall": "^1.0.0"
