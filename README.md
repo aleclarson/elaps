@@ -14,7 +14,7 @@ t.pause();
 t.start(); // and resume
 
 // stop the timer and print its message (if one exists)
-t.stop(); // prints "(5.25 ms) doSomething"
+t.stop(); // prints "doSomething (5.25 ms)"
 
 // get the lap time without pausing or stopping
 t.time();
