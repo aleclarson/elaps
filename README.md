@@ -14,16 +14,16 @@ let t = elaps('do something');
 t = elaps.lazy('do something');
 
 // choose where the elapsed time is printed
-elaps('did something in %t').stop();
+elaps('did something in %t').stop(true);
 
 // print the number of laps
-elaps('did something %n times').stop();
+elaps('did something %n times').stop(true);
 
 // util.format placeholders are supported
-elaps('do something: %O', {meta:'data'}).stop();
+elaps('do something: %O', {meta:'data'}).stop(true);
 
 // args without a placeholder default to %O
-elaps('do something:', {meta:'data'}).stop();
+elaps('do something:', {meta:'data'}).stop(true);
 ```
 
 ## `Stopwatch` class
@@ -78,7 +78,7 @@ Start a new lap.
 
 Update the value of `this.lap` to the new lap.
 
-### `stop(print: boolean): this`
+### `stop(print: ?boolean): this`
 
 Stop the current lap.
 
@@ -140,7 +140,7 @@ Equals `null` once stopped.
 
 ### Methods
 
-### `stop(print: boolean): this`
+### `stop(print: ?boolean): this`
 
 Stop counting.
 
