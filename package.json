@@ -8,6 +8,7 @@
     "node": ">=9"
   },
   "dependencies": {
-    "@cush/execall": "^1.0.0"
+    "@cush/execall": "^1.0.0",
+    "util.format": "^1.0.0"
   }
 }
