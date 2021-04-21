@@ -163,3 +163,6 @@ elaps.lazy = function(msg, ...args) {
 };
 
 module.exports = elaps;
+Object.defineProperty(elaps, 'default', {
+  get: () => elaps,
+});
