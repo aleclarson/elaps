@@ -132,6 +132,9 @@ class Stopwatch {
     }
     return this;
   }
+  mark(...args) {
+    return this.stop().print(...args).start();
+  }
   sum() {
     let sum = 0, i = 0;
     const laps = this.laps, len = laps.length;

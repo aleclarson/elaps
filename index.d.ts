@@ -47,6 +47,8 @@ export interface Stopwatch extends ElapsedTime {
    * time if `true` is passed.
    */
   stop(print: boolean): this
+  /** Stop the most recent lap, and start a new lap. */
+  mark(msg?: string, ...args: any[]): this
   /** Get the sum of all finished laps. */
   sum(): number
   /** Get the average of all finished laps. */
