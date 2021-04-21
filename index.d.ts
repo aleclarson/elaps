@@ -54,10 +54,6 @@ export interface Stopwatch extends ElapsedTime {
 }
 
 export interface Lap extends ElapsedTime {
-  /** The stopwatch that created this lap */
-  readonly timer: Stopwatch
-  /** The stopwatch identifier */
-  readonly timerId: number
   /** Is this lap paused? */
   readonly paused: boolean
   /** Pause timing and update the `elapsed` time. */
