@@ -1,0 +1,23 @@
+dependencies:
+  '@cush/execall': 1.0.0
+  util.format: 1.0.0
+devDependencies:
+  '@types/node': 14.14.41
+lockfileVersion: 5.2
+packages:
+  /@cush/execall/1.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-pbrDxZOGgTbyLunPdgDgTeJCVFctqlGMoS0yEzuYQbaBvnSCAgh//74/Elhmx/gKG6gkutPvPWs/UwdEHFGV7w==
+  /@types/node/14.14.41:
+    dev: true
+    resolution:
+      integrity: sha512-dueRKfaJL4RTtSa7bWeTK1M+VH+Gns73oCgzvYfHZywRCoPSd8EkXBL0mZ9unPTveBn+D9phZBaxuzpwjWkW0g==
+  /util.format/1.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-RanEelDzP4yCwPXY5OlWMSb/wZ+tKbM1VEFDLtYdOfZvp6bfE2X8S3zqz+/uQGUd6X1RaUGOUGgisc3Rygn5JQ==
+specifiers:
+  '@cush/execall': ^1.0.0
+  '@types/node': ^14.14.41
+  util.format: ^1.0.0

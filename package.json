@@ -10,5 +10,8 @@
   "dependencies": {
     "@cush/execall": "^1.0.0",
     "util.format": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.41"
   }
 }
