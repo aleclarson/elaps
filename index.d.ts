@@ -66,9 +66,9 @@ export interface Lap extends ElapsedTime {
 
 declare const elaps: {
   /** Create a stopwatch and start it immediately. */
-  (msg: string, ...args: any[]): Stopwatch
+  (msg?: string, ...args: any[]): Stopwatch
   /** Create a paused stopwatch. */
-  lazy(msg: string, ...args: any[]): Stopwatch
+  lazy(msg?: string, ...args: any[]): Stopwatch
   /**
    * The logging function.
    * @default console.log
